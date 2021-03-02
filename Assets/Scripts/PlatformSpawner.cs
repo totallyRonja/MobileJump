@@ -23,14 +23,14 @@ public class PlatformSpawner : MonoBehaviour {
             .ToArray();
     }
 
-    // Update is called once per frame
     private void LateUpdate() {
         var cameraEdge = cam.transform.position.y + cam.orthographicSize;
         while (currentHeight < cameraEdge) {
             var index = weightRedirection.RandomElement();
             var chunk = ChunkPrefabs[index];
             foreach (var newObject in chunk.ContainedObjects) {
-                Instantiate(newObject.Object, newObject.Position.Y(newObject.Position.y + currentHeight), Quaternion.identity);
+                var instance = PoolManager.Instance.Spawn(newObject.Object);
+                instance.transform.position = newObject.Position.Y(newObject.Position.y + currentHeight);
             }
             currentHeight += chunk.Height;
         }
