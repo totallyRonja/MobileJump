@@ -24,7 +24,7 @@ public class PlatformSpawner : MonoBehaviour {
     }
 
     private void LateUpdate() {
-        var cameraEdge = cam.transform.position.y + cam.orthographicSize;
+        var cameraEdge = cam.transform.position.y + AspectHelper.Instance.WorldSize.y;
         while (currentHeight < cameraEdge) {
             var index = weightRedirection.RandomElement();
             var chunk = ChunkPrefabs[index];

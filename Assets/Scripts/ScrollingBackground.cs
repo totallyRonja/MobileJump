@@ -54,7 +54,7 @@ public class ScrollingBackground : MonoBehaviour {
             return;
         }
         ElementHeight = boundingBox.Value.size.y;
-        var screenHeight = Camera.main!.orthographicSize * 2;
+        var screenHeight = camHeight * 2;
         var elementCount = Mathf.CeilToInt(screenHeight / ElementHeight) + 1;
         for (int i = 0; i < elementCount; i++) {
             var newObject = (GameObject) PrefabUtility.InstantiatePrefab(BackgroundElement, transform);
@@ -80,7 +80,7 @@ public class ScrollingBackground : MonoBehaviour {
         diff *= Parallax;
         var pos = startHeight + diff;
         //and then choose the multiple thats just above the camera top edge
-        pos = Mathf.Ceil((camHeight + cam.orthographicSize - pos) / ElementHeight) * ElementHeight + pos;
+        pos = Mathf.Ceil((camHeight + AspectHelper.Instance.WorldSize.y - pos) / ElementHeight) * ElementHeight + pos;
         trans.position = trans.position.Y(pos);
     }
 }

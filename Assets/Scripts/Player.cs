@@ -41,7 +41,7 @@ public class Player : MonoBehaviour {
         hurtLayer = LayerMask.NameToLayer("Hurt");
 
         cam = Camera.main;
-        screenWidth = 2 * cam!.orthographicSize * cam.aspect + Width;
+        screenWidth = 2 * AspectHelper.Instance.WorldSize.x + Width;
     }
 
     private void FixedUpdate() {
