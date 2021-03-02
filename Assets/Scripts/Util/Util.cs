@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 #endif
@@ -18,5 +20,10 @@ public static class Util {
 	private static IEnumerator DestroyRoutine(Object victim) {
 		yield return new WaitForEndOfFrame();
 		Object.DestroyImmediate(victim);
+	}
+
+	public static T RandomElement<T>(this IReadOnlyList<T> collection) {
+		var index = Random.Range(0, collection.Count);
+		return collection[index];
 	}
 }
