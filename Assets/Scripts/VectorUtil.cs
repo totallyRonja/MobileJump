@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class Util {
+public static class VectorUtil {
 	public static Vector3 X(this Vector3 vector, float newX) {
 		vector.x = newX;
 		return vector;

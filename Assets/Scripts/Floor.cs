@@ -10,7 +10,7 @@ public class Floor : MonoBehaviour {
         trans = transform;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (FollowObject.position.y - trans.position.y > MaxHeightDiff)
             trans.position = trans.position.Y(FollowObject.position.y - MaxHeightDiff);
