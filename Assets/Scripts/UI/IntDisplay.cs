@@ -10,7 +10,7 @@ public class IntDisplay : MonoBehaviour {
 
 	private void Start() {
 		text = GetComponent<TMP_Text>();
-		UpdateText(Property.Value);
+		UpdateText(Property);
 		Property.OnChange.AddListener(UpdateText);
 	}
 

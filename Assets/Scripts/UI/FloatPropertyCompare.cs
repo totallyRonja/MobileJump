@@ -7,9 +7,9 @@ public class FloatPropertyCompare : MonoBehaviour {
 	[SerializeField] private FloatProperty Property2;
 
 	private void Awake() {
-		Property1.OnChange.AddListener(a => Compare(a, Property2.Value));
-		Property2.OnChange.AddListener(b => Compare(Property1.Value, b));
-		Compare(Property1.Value, Property2.Value);
+		Property1.OnChange.AddListener(a => Compare(a, Property2));
+		Property2.OnChange.AddListener(b => Compare(Property1, b));
+		Compare(Property1, Property2);
 	}
 
 	private void Compare(float a, float b) {

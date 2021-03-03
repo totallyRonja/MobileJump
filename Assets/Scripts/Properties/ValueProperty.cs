@@ -31,4 +31,8 @@ public abstract class ValueProperty<T> : ScriptableObject {
 	public void ResetValues() {
 		Value = DefaultValue;
 	}
+
+	public static implicit operator T(ValueProperty<T> property) {
+		return property.Value;
+	}
 }
