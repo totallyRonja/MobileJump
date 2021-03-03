@@ -1,6 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
+public class Event {
+	private Action action;
+
+	public ListenerToken AddListener(Action listener) {
+		action += listener;
+		return new ListenerToken(this, listener);
+	}
+
+	public void Invoke() {
+		action?.Invoke();
+	}
+
+	public void RemoveListener(Action listener) {
+		action -= listener;
+	}
+
+	public void Clear() {
+		action = delegate {};
+	}
+}
+
 public class Event<T> {
 	private Action<T> action;
 
@@ -23,10 +44,24 @@ public class Event<T> {
 }
 
 public class ListenerToken<T> : IListenerToken {
-	private Event<T> parentEvent;
-	private Action<T> listener;
+	private readonly Event<T> parentEvent;
+	private readonly Action<T> listener;
 	
 	public ListenerToken(Event<T> parentEvent, Action<T> listener) {
+		this.parentEvent = parentEvent;
+		this.listener = listener;
+	}
+
+	public void Dispose() {
+		parentEvent.RemoveListener(listener);
+	}
+}
+
+public class ListenerToken : IListenerToken {
+	private readonly Event parentEvent;
+	private readonly Action listener;
+	
+	public ListenerToken(Event parentEvent, Action listener) {
 		this.parentEvent = parentEvent;
 		this.listener = listener;
 	}

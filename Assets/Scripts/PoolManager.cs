@@ -54,19 +54,19 @@ public class PoolManager : MonoBehaviour {
 		}
 
 		instance.SetActive(true);
-		instance.SendMessage("Reset", SendMessageOptions.DontRequireReceiver);
+		instance.SendMessage("ResetValues", SendMessageOptions.DontRequireReceiver);
 		activeObjects.Enqueue(instance.transform);
 		return instance;
 	}
 
 	public void Clear() {
 		//hide and pool all currently active objets
-		var activeObject = activeObjects.Dequeue()?.gameObject;
-		while (activeObject != null) {
-			var pool = GetPool(activeObject.gameObject.GetInstanceID());
+		while (activeObjects.Count > 0) {
+			var activeObject = activeObjects.Dequeue().gameObject;
+			var id = activeObject.GetComponent<PooledObject>().Id;
+			var pool = GetPool(id);
 			activeObject.SetActive(false);
 			pool.Push(activeObject);
-			activeObject = activeObjects.Dequeue()?.gameObject;
 		}
 	}
 

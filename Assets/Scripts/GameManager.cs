@@ -1,33 +1,48 @@
-using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-	public static GameManager Instance;
-
 	[SerializeField] private Transform HeightMeasurement;
-	
-	[NonSerialized] public Observable<float> maxHeight = new Observable<float>();
+	[SerializeField] private FloatProperty MaxHeight;
+	[SerializeField] private IntProperty UniqueJumps;
+	[SerializeField] private FloatProperty RecordHeight;
+	[SerializeField] private IntProperty RecordJumps;
+	[SerializeField] private EventProperty Death;
+	[SerializeField] private EventProperty Retry;
+	[SerializeField] private IntProperty State;
 
 	private float heightZero;
 
 	private void Awake() {
 		heightZero = HeightMeasurement.position.y;
+		Death?.Event.AddListener(GameOver);
+		Retry?.Event.AddListener(Restart);
+	}
+
+	private void Start() {
+		Restart();
+	}
+
+	private void GameOver() {
+		State.Value = (int) GameState.GameOver;
+
+		if (MaxHeight.Value > RecordHeight.Value)
+			RecordHeight.Value = MaxHeight.Value;
+		
+		if (UniqueJumps.Value > RecordJumps.Value)
+			RecordJumps.Value = UniqueJumps.Value;
+	}
+
+	private void Restart() {
+		MaxHeight.ResetValues();
+		UniqueJumps.ResetValues();
+		
+		State.Value = (int) GameState.Playing;
 	}
 
 	private void LateUpdate() {
+		//check how far the measurement object (usually player) moved upwards and update when its higher than so far
 		var height = HeightMeasurement.position.y - heightZero;
-		if (height > maxHeight.Value)
-			maxHeight.Value = height;
-	}
-
-	private void OnEnable() {
-		if (Instance != null)
-			Debug.LogWarning("There are two pool managers in your scene, this shouldn't happen!");
-		Instance = this;
-	}
-
-	private void OnDisable() {
-		if (Instance == this)
-			Instance = null;
+		if (height > MaxHeight.Value)
+			MaxHeight.Value = height;
 	}
 }

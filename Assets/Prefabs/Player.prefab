@@ -171,6 +171,8 @@ MonoBehaviour:
   MoveKeys: {fileID: -8816115354218453695, guid: e083b9dc3380f7b4ea8976835e92d32a, type: 3}
   MoveTouch: {fileID: -9077495892014885573, guid: e083b9dc3380f7b4ea8976835e92d32a, type: 3}
   Width: 1
+  GameOver: {fileID: 11400000, guid: fedc75849bfddcf49ada9077a7ff2750, type: 2}
+  Retry: {fileID: 11400000, guid: 32c3bd6fef5b43442a31b0dc8b98cc62, type: 2}
 --- !u!50 &5548580539455987427
 Rigidbody2D:
   serializedVersion: 4

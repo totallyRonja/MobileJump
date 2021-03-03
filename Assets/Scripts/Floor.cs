@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 
 public class Floor : MonoBehaviour {
 	[SerializeField] private Transform FollowObject;
 	[SerializeField] private float MaxHeightDiff;
+	[SerializeField] private EventProperty Reset;
 
 	private Transform trans;
 	private float baseY;
@@ -11,6 +11,7 @@ public class Floor : MonoBehaviour {
 	private void Awake() {
 		trans = transform;
 		baseY = trans.position.y;
+		Reset?.Event.AddListener(ResetValues);
 	}
 
 	private void Update()
@@ -19,7 +20,7 @@ public class Floor : MonoBehaviour {
 			trans.position = trans.position.Y(FollowObject.position.y - MaxHeightDiff);
 	}
 
-	public void Reset() {
+	public void ResetValues() {
 		trans.position = trans.position.Y(baseY);
 	}
 }

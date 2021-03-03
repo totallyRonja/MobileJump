@@ -20,6 +20,8 @@ public class Player : MonoBehaviour {
 	[SerializeField] private InputActionReference MoveKeys = null;
 	[SerializeField] private InputActionReference MoveTouch = null;
 	[SerializeField] private float Width = 1;
+	[SerializeField] private EventProperty GameOver;
+	[SerializeField] private EventProperty Retry;
 
 	private float fallSpeed = 0;
 	private float verticalSpeed = 0;
@@ -28,12 +30,14 @@ public class Player : MonoBehaviour {
 	private int hurtLayer;
 	private float screenWidth;
 	private Camera cam;
+	private Vector3 startPosition;
     
 	private PlayerState state = PlayerState.Default;
 
-	private void Awake() {
+	private void Start() {
 		rigid = GetComponent<Rigidbody2D>();
 		trans = transform;
+		startPosition = trans.position;
         
 		MoveKeys.action.Enable();
 		MoveTouch.action.Enable();
@@ -42,6 +46,16 @@ public class Player : MonoBehaviour {
 
 		cam = Camera.main;
 		screenWidth = 2 * AspectHelper.Instance.WorldSize.x + Width;
+
+		Retry?.Event.AddListener(ResetValues);
+	}
+
+	private void ResetValues() {
+		trans.position = startPosition;
+		fallSpeed = 0;
+		verticalSpeed = 0;
+		trans.localScale = trans.localScale.Y(1);
+		state = PlayerState.Default;
 	}
 
 	private void FixedUpdate() {
@@ -145,5 +159,6 @@ public class Player : MonoBehaviour {
 		trans.localScale = trans.localScale.Y(-1); //flip player (colliders dont matter anymore)
 		fallSpeed = DeathBopVelocity; //do the "mario death bop"
 		Debug.Log("Player Died");
+		GameOver?.Invoke();
 	}
 }
