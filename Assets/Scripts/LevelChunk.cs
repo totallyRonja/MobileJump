@@ -19,7 +19,7 @@ public class LevelChunk : MonoBehaviour {
 		ContainedObjects.Clear();
 
 		foreach (Transform child in transform) {
-			var prefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(child.gameObject);
+			var prefab = PrefabUtility.GetCorrespondingObjectFromSource(child.gameObject);
 			//only prefab children are allowed here
 			if(prefab == null)
 				continue;

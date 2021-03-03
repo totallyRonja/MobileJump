@@ -3339,7 +3339,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartChunk: {fileID: 1744091481, guid: 3526c24fc0343444982f338cb2767dfd, type: 3}
   ChunkPrefabs:
+  - {fileID: 1881236387120322412, guid: 12952491d205d7c4e9423bc70e4ab9e3, type: 3}
   - {fileID: 4177424383327638363, guid: 95440075db86ac04ab7d9319af571662, type: 3}
+  - {fileID: 3801004370288961300, guid: 558c2e27c6b2adf4b9b7271916b1d717, type: 3}
+  - {fileID: 3533773392290896711, guid: 54ce3ac22e1585647a839eca8a6e2226, type: 3}
+  - {fileID: 6269979343309667240, guid: 0ac392088e3b3dc4aa4782f5be7448df, type: 3}
+  - {fileID: 2314764048754855137, guid: f93ebfeb17b330340aab74673abc7982, type: 3}
   - {fileID: 8823208107076299047, guid: 95d6243b2d3a7ec458f2ed19f0848bb2, type: 3}
   - {fileID: 2392683228619991171, guid: 352cb0c901dac9f4e9c3a56f1d855b3a, type: 3}
   - {fileID: 7037731551267116542, guid: 2bce1ea5286fecd4693ba0c1a9fbf800, type: 3}
