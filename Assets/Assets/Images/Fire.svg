@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#F4900C" d="M35 19c0-2.062-.367-4.039-1.04-5.868-.46 5.389-3.333 8.157-6.335 6.868-2.812-1.208-.917-5.917-.777-8.164.236-3.809-.012-8.169-6.931-11.794 2.875 5.5.333 8.917-2.333 9.125-2.958.231-5.667-2.542-4.667-7.042-3.238 2.386-3.332 6.402-2.333 9 1.042 2.708-.042 4.958-2.583 5.208-2.84.28-4.418-3.041-2.963-8.333C2.52 10.965 1 14.805 1 19c0 9.389 7.611 17 17 17s17-7.611 17-17z"/><path fill="#FFCC4D" d="M28.394 23.999c.148 3.084-2.561 4.293-4.019 3.709-2.106-.843-1.541-2.291-2.083-5.291s-2.625-5.083-5.708-6c2.25 6.333-1.247 8.667-3.08 9.084-1.872.426-3.753-.001-3.968-4.007C7.352 23.668 6 26.676 6 30c0 .368.023.73.055 1.09C9.125 34.124 13.342 36 18 36s8.875-1.876 11.945-4.91c.032-.36.055-.722.055-1.09 0-2.187-.584-4.236-1.606-6.001z"/><script xmlns="">(function(){'use strict';
+
+if( !window.__ECSY_DEVTOOLS_INJECTED ) {
+	function compareVersions(v1, v2) {
+    if (typeof v1 !== 'string') return false;
+    if (typeof v2 !== 'string') return false;
+    v1 = v1.split('.');
+    v2 = v2.split('.');
+    const k = Math.min(v1.length, v2.length);
+    for (let i = 0; i &lt; k; ++ i) {
+        v1[i] = parseInt(v1[i], 10);
+        v2[i] = parseInt(v2[i], 10);
+        if (v1[i] &gt; v2[i]) return 1;
+        if (v1[i] &lt; v2[i]) return -1;
+    }
+    return v1.length == v2.length ? 0: (v1.length &lt; v2.length ? -1 : 1);
+	}
+
+	function sendMessage( type, data ) {
+		if (window.__ECSY_REMOTE_DEVTOOLS_INJECTED &amp;&amp; window.__ECSY_REMOTE_DEVTOOLS.connection) {
+			window.__ECSY_REMOTE_DEVTOOLS.connection.send({
+				id: 'ecsy-devtools',
+				method: type,
+				data: JSON.stringify(data)
+			});
+		}
+		window.postMessage({
+			id: 'ecsy-devtools',
+			method: type,
+			data,
+		}, '*');
+	}
+
+	window.addEventListener('ecsy-world-created', e =&gt; {
+		if (!window.__ECSY_DEVTOOLS) {
+			window.__ECSY_DEVTOOLS = {
+				worlds: []
+			};
+		}
+
+		var world = e.detail.world;
+		var version = e.detail.version;
+		if (!version || compareVersions(version, "0.1.4") &lt; 0) {
+			console.info("ECSY detected but this version is not compatible with the devtools installed");
+			return;
+		}
+
+		window.__ECSY_DEVTOOLS.worlds.push(world);
+		window.__ECSY_DEVTOOLS.ecsyVersion = version;
+
+		var stats = {
+			processDeferredRemoval: 0
+		};
+
+		var _pools = {};
+
+		var oriWorldExecute = world.execute;
+
+		world.execute = function(delta, time) {
+			oriWorldExecute.apply(world, arguments);
+			window.__ECSY_DEVTOOLS.refreshStats();
+		}
+
+		window.__ECSY_DEVTOOLS.refreshStats = function() {
+			let startTime = performance.now();
+			const entityManager = world.entityManager;
+
+			const deferredRemoval = {
+				enabled: entityManager.deferredRemovalEnabled,
+				executeTime: stats.processDeferredRemoval,
+				entitiesToRemove: entityManager.entitiesToRemove.length,
+				entitiesWithComponentsToRemove: entityManager.entitiesWithComponentsToRemove.length,
+				totalComponentsToRemove: entityManager.entitiesWithComponentsToRemove.reduce((a, c) =&gt; a + c._ComponentTypesToRemove.length, 0)
+			};
+
+			const queries = Object.values(world.entityManager._queryManager._queries).map(q =&gt; q.toJSON());
+
+			const systems = world.systemManager._systems.map(system =&gt; {
+				let data = system.toJSON();
+				for (name in data.queries) {
+					var query = data.queries[name];
+					var queryData = queries.find(q =&gt; q.key === query.key);
+					query.numEntities = queryData.numEntities;
+					query.components = queryData.components;
+				}
+
+				return data;
+			});
+
+			systems.sort((a, b) =&gt; {
+				return a.priority - b.priority || a.order - b.order;
+			});
+
+			// Reset time for next step
+			// @todo Do it on core?
+			world.systemManager._systems.forEach(system =&gt; {
+				system.executeTime = 0;
+			});
+
+
+			let componentsNum = world.componentsManager.numComponents;
+			let components = {};
+			for (let id in componentsNum) {
+				var component = world.componentsManager.Components[id];
+				const name = component.getName ? component.getName() : id;
+
+				components[name] = {
+					count: componentsNum[id],
+					type: component.isTagComponent ? 'tag' :
+								(component.isComponent ? 'component' :
+								(component.isSystemStateComponent ? 'systemstate' : 'none'))
+				};
+			}
+
+			let componentsPools = {};
+			for (name in world.componentsManager._componentPool) {
+				if (!_pools[name]) {
+					_pools[name] = {
+						lastPoolSize: 0
+					};
+				}
+
+				let pool = world.componentsManager._componentPool[name];
+				if (pool !== undefined) {
+					var cName = pool.T.name;
+					componentsPools[cName] = {
+						valid: pool.isObjectPool,
+						used: pool.totalUsed(),
+						free: pool.totalFree(),
+						size: pool.totalSize(),
+						increased: pool.totalSize() &gt; _pools[name].lastPoolSize
+					}
+	
+					_pools[name].lastPoolSize = pool.totalSize();	
+				}
+			};
+
+			let data = {
+				world: {
+					enabled: world.enabled
+				},
+				lastExecutedSystem: world.systemManager.lastExecutedSystem ? world.systemManager.lastExecutedSystem.constructor.name : '',
+				numEntities: world.entityManager._entities.length,
+				systems: systems,
+				queries: queries,
+				components: components,
+				deferredRemoval: deferredRemoval,
+				componentsPools: componentsPools,
+				ecsyVersion: version,
+				statsComputeTime: performance.now() - startTime
+			};
+			sendMessage('refreshData', data);
+		}
+
+		sendMessage('worldCreated', {});
+	});
+
+	function log() {
+		var args = Array.from( arguments );
+		 args.unshift( 'background: #9999ff; color: #ffffff;' );
+		args.unshift( `%c ECSY Injector ` );
+
+		console.log.apply( console, args );
+	}
+
+	// log( 'ECSYInspector injected', document.location.href );
+
+	window.__ECSY_DEVTOOLS_INJECTED = true;
+}
+})();</script></svg>

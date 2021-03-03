@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Height: 2
-  Weight: 1
+  Weight: 10
   ContainedObjects:
   - Position: {x: 1.5, y: 1, z: 0}
     Object: {fileID: 8983992747722526357, guid: 882c09f0d4557414786a47b3c86b9ba1, type: 3}

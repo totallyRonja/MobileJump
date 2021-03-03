@@ -2085,7 +2085,7 @@ GameObject:
   - component: {fileID: 965338255}
   m_Layer: 9
   m_Name: KillPlane
-  m_TagString: Untagged
+  m_TagString: Hurt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3342,6 +3342,8 @@ MonoBehaviour:
   - {fileID: 4177424383327638363, guid: 95440075db86ac04ab7d9319af571662, type: 3}
   - {fileID: 8823208107076299047, guid: 95d6243b2d3a7ec458f2ed19f0848bb2, type: 3}
   - {fileID: 2392683228619991171, guid: 352cb0c901dac9f4e9c3a56f1d855b3a, type: 3}
+  - {fileID: 7037731551267116542, guid: 2bce1ea5286fecd4693ba0c1a9fbf800, type: 3}
+  - {fileID: 626412250739064933, guid: e84fcdad084fc5945b26e79d280a86b2, type: 3}
   Reset: {fileID: 11400000, guid: 32c3bd6fef5b43442a31b0dc8b98cc62, type: 2}
 --- !u!1001 &1823632891
 PrefabInstance:
@@ -4242,6 +4244,10 @@ PrefabInstance:
     - target: {fileID: 451313088425582082, guid: a5bb78d67a7b72746aa866a69f921866, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 451313088425582083, guid: a5bb78d67a7b72746aa866a69f921866, type: 3}
+      propertyPath: SpringVelocity
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5bb78d67a7b72746aa866a69f921866, type: 3}

@@ -13,7 +13,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
-   sodipodi:docname="ButtonFill.svg">
+   sodipodi:docname="Spring_thick.svg"
+   inkscape:export-filename="D:\gamedev\Testing\MobileJump\Assets\Assets\Images\Teardrop.png"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192">
   <defs
      id="defs2">
     <inkscape:path-effect
@@ -69,9 +72,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="33.259648"
-     inkscape:cy="29.594424"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="5.0653313"
+     inkscape:cy="43.359214"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -81,8 +84,8 @@
      units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-y="63"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true"
      inkscape:snap-page="true">
@@ -109,14 +112,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="opacity:0.997;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect848"
-       width="48"
-       height="48"
-       x="8"
-       y="8"
-       sodipodi:type="rect"
-       d="M 24,8 H 40 A 16,16 45 0 1 56,24 V 40 A 16,16 135 0 1 40,56 H 24 A 16,16 45 0 1 8,40 V 24 A 16,16 135 0 1 24,8 Z"
-       inkscape:path-effect="#path-effect852" />
+       id="path860"
+       style="fill:none;stroke:#ffffff;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 8,24 56,16 M 8,40 56,32 m 0,16 -48,8 h 48" />
   </g>
 </svg>

@@ -34,7 +34,7 @@ public class AspectHelper : MonoBehaviour {
 			CanvasSize = new Vector2(canvasSize.y * Aspect, canvasSize.y);
 		} else if (minAspect > aspect) {
 			CanvasSize = new Vector2(canvasSize.x, canvasSize.x / Aspect);
-			cam.orthographicSize = WorldSize.x * Aspect / aspect;
+			cam.orthographicSize = 2 * WorldSize.x * Aspect / aspect;
 		} else {
 			CanvasSize = Vector2.Lerp(
 				canvasSize.Y(canvasSize.x / aspect),
