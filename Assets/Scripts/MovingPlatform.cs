@@ -8,16 +8,22 @@ public class MovingPlatform : MonoBehaviour {
 
 	private float progress;
 	private Transform trans;
+	private bool newPlatform;
 
 	private void Awake() {
 		trans = transform;
 	}
 
 	private void ResetValues() {
-		progress = Mathf.InverseLerp(From, To, trans.position.x) / Speed;
+		newPlatform = true;
 	}
 
 	private void Update() {
+		//we need to do this here because we need to use the position *after* instantiation, not during
+		if (newPlatform) {
+			progress = Mathf.InverseLerp(From, To, trans.position.x) / Speed;
+			newPlatform = false;
+		}
 		progress += Time.deltaTime;
 		var relProgress = Mathf.PingPong(progress * Speed, 1);
 		var pos = Mathf.Lerp(From, To, relProgress);
