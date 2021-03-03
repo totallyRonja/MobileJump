@@ -27,9 +27,10 @@ public class GameManager : MonoBehaviour {
 
 		if (MaxHeight.Value > RecordHeight.Value)
 			RecordHeight.Value = MaxHeight.Value;
-		
 		if (UniqueJumps.Value > RecordJumps.Value)
 			RecordJumps.Value = UniqueJumps.Value;
+		
+		//todo: consider saving the highscore over multiple sessions
 	}
 
 	private void Restart() {
