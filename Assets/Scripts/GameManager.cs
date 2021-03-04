@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void LateUpdate() {
+		if(State != (int)GameState.Playing) return;
 		//check how far the measurement object (usually player) moved upwards and update when its higher than so far
 		var height = HeightMeasurement.position.y - heightZero;
 		if (height > MaxHeight)

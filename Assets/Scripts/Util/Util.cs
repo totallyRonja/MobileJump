@@ -13,7 +13,7 @@ public static class Util {
 		EditorCoroutineUtility.StartCoroutineOwnerless(DestroyRoutine(victim));
 #else
 		//this should never be called in the game, but if we do, this should work.
-		Destroy(victim);
+		Object.Destroy(victim);
 #endif
 	}
 
